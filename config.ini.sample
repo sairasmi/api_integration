@@ -1,0 +1,42 @@
+[mysql]
+host=localhost
+user=root
+password=
+db=weatherpiyush
+
+[tables]
+location = location
+location_raw_data_half_hour = location_raw_data_hourly
+location_raw_data_daily = location_raw_data_daily
+ama_krushi_daily_reports=ama_krushi_daily_reports
+dealer_main=dealer_main
+insecticide_main=insecticide_main
+dealer_insectiside_transactions=dealer_insectiside_transactions
+farm_mech_PDI_data_table=farm_mech_PDI_data
+farm_mech_subsidy_payment_table=farm_mech_subsidy_payment
+achivement_report_data=achivement_report_data
+micro_details_incoming_call=micro_details_incoming_call
+macro_details_incoming_outgoing_call=macro_details_incoming_outgoing_call
+farmers_onboarded=farmers_onboarded
+outgoing_ivrs_advisory=outgoing_ivrs_advisory
+
+[fetchurls]
+LOCATION_DATA_URL = https://krushipanipaga.gov.in/api/get_location.php
+LOCATION_DATA_HALF_AN_HOUR_URL = https://krushipanipaga.gov.in/api/get_rawdata.php
+LOCATION_DATA_DAILY_URL = https://krushipanipaga.gov.in/api/get_dailydata.php
+GET_AMA_KRUSHI_REPORTS_DAILY_URL=https://dss.amakrushi.in/dailyreport/
+GET_DEALER_DATA_URL = https://odishaagrilicense.nic.in/districtDealerDetail
+GET_INSECTICIDE_DATA_URL = https://odishaagrilicense.nic.in/insecticideDetail
+GET_DEALER_INSECTISIDES_TRANSACTIONS_DATA_URL = https://odishaagrilicense.nic.in/insecticideEnteredDetails
+FARM_MECH_PDI_DATA_URL = https://dbtmbdodisha.nic.in/dafp/getPDIDATAConsolidated
+FARM_MECH_SUBSIDY_PAYMENT_URL = https://dbtmbdodisha.nic.in/dafp/getFmndbtTransactionDtl
+GET_ACHIEVEMENT_REPORT_DATA_URL=https://ifsodisha.nic.in/admin/achivementReport
+MICRO_DETAILS_INCOMING_CALL_URL=https://crm.amakrushi.in/api/gov/mdic/
+MACRO_DETAILS_INCOMING_OUTGOING_CALL_URL=https://crm.amakrushi.in/api/gov/mdioc/
+FARMERS_ONBOARDED_URL=https://crmapi.amakrushi.in/farmer_onboarded/
+OUTGOING_IVRS_ADVISORY_URL=https://crmapi.amakrushi.in/advisory_details
+
+[secretKeys]
+APP_KEY = 
+FARM_MECH_PDI_DATA_API_KEY=
+FARM_MECH_SUBSIDY_PAYMENT_API_KEY=
