@@ -4,7 +4,8 @@ import logging, configparser
 from sqlalchemy import create_engine
 import pymysql
 import urllib.parse
-
+import datetime
+from datetime import timedelta
 config = configparser.ConfigParser()
 config.read("./config.ini")
 
@@ -468,3 +469,15 @@ class mysqlController:
         except Exception as e:
             logging.error("Error in get_insectisides_by_technical_name")
             logging.error(e)
+    # Define a function to get the current financial year
+    def get_current_fy(self):
+        # Get the current date
+        today = datetime.date.today()
+        # Get the current year and month
+        year = today.year
+        month = today.month
+        # If the month is before April, subtract one from the year
+        if month < 4:
+            year -= 1
+        # Return the current financial year as a string
+        return str(year) + "-" + str(year + 1)

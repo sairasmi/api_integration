@@ -62,26 +62,15 @@ def getDistrictBorewellData(fyear,schemename):
             logging.error(e)
             
 
-        print(rdata['DistName'])
-# Define a function to get the current financial year
-def get_current_fy():
-    # Get the current date
-    today = datetime.date.today()
-    # Get the current year and month
-    year = today.year
-    month = today.month
-    # If the month is before April, subtract one from the year
-    if month < 4:
-        year -= 1
-    # Return the current financial year as a string
-    return str(year) + "-" + str(year + 1)
+print("District Bore well completed")
+
 
 if __name__ == "__main__":
     stm = "TRUNCATE TABLE t_district_bore_well_data"
     cur = mc.conn.cursor()
     cur.execute(stm)
     # Get the current financial year
-    current_fy = get_current_fy()
+    current_fy = mc.get_current_fy()
     f_year=''
     scheme_data =('RKVY','SP')
     for j in scheme_data:
