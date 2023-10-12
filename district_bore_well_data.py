@@ -49,9 +49,10 @@ def getDistrictBorewellData(fyear,schemename):
         project_competed    = rdata['ProjectCompleted']
         pyment_gec          = rdata['PymntGec']
         subsidy             = rdata['Subsidy']
+        current_datetime      = datetime.datetime.now()
         try:            
-            insert_query = "INSERT IGNORE INTO t_district_bore_well_data (vch_district_name,vch_lgd_code,vch_admin_target,vch_valid_application,vch_goahead_generated,vch_project_completed,vch_pymnt_gec,vch_subsidy,vch_finacial_year,vch_scheme_name) VALUES (%s, %s, %s, %s, %s,%s, %s, %s, %s, %s)"
-            valdata =(dist_name,lgd_code,admin_target,valid_application,go_ahaed_generated,project_competed,pyment_gec,subsidy,fyear,schemename)
+            insert_query = "INSERT IGNORE INTO t_district_bore_well_data (vch_district_name,vch_lgd_code,vch_admin_target,vch_valid_application,vch_goahead_generated,vch_project_completed,vch_pymnt_gec,vch_subsidy,vch_finacial_year,vch_scheme_name,created_at,updated_at) VALUES (%s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s)"
+            valdata =(dist_name,lgd_code,admin_target,valid_application,go_ahaed_generated,project_competed,pyment_gec,subsidy,fyear,schemename,current_datetime,current_datetime)
             cur = mc.conn.cursor()
             cur.execute(insert_query, valdata)
             mc.conn.commit()

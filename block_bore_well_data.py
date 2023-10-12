@@ -40,11 +40,8 @@ def getBlockBorewellData(fyear,schemename):
     cur.execute(select_query)
     dist_data=cur.fetchall()
     for lgd_code in dist_data:
-        # print(''.join(lgd_code))
         finalUrl = "{0}?appKey={1}&F_YEAR={2}&scheme={3}&distcode={4}".format('https://dbtmbdodisha.nic.in/dafp/getSpReportForAdapBlockWiseBWL','BVgd758hy4g5JUTi3589FR67', fyear,schemename,''.join(lgd_code))
-        print(finalUrl)
         response_json = fetachUrlJsonData(finalUrl)
-        print(response_json)
         for rdata in  response_json:
             slno                = rdata['Slno']
             block_name           = rdata['BlockName']
@@ -83,7 +80,6 @@ if __name__ == "__main__":
     for j in scheme_data:
         for i in range(2017, int(current_fy[:4]) + 1):
             f_year = str(i) + "-" + str(i + 1)[-2:]
-            #print(f_year)
             getBlockBorewellData(f_year,j)
     
 
