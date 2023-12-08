@@ -12,18 +12,6 @@ config = configparser.ConfigParser()
 config.read('./config.ini')
 mc = mysqlController()  ##initialize connection to db
 """
-Function to fetch api data
-Cretaed By : Ranjit Kumar Sahu
-Created on : 10-10-2023
-"""
-def fetachUrlJsonData(apiUrl):
-    """
-    Function to fetch api data    
-     apiUrl: Api url to get the data    
-    """
-    app_responce = requests.request("GET",apiUrl,verify=False)
-    return app_responce.json()
-"""
 Function to get districtwise bore well pending data
 Created By : Ranjit Kumar Sahu
 Created On :10-10-2023
@@ -41,16 +29,20 @@ def getBlockBorewellPendingData(fyear,schemename):
     for lgd_code in dist_data:
         finalUrl = "{0}?appKey={1}&Fyr={2}&scheme={3}&distcode={4}".format('https://dbtmbdodisha.nic.in/dafp/getReportForAdapForPendingWithAAOBlockWise','BVgd758hy4g5JUTi3589FR67', fyear,schemename,''.join(lgd_code))
         
-        response_json = fetachUrlJsonData(finalUrl)
+        response_json = mc.fetachUrlJsonData("GET",finalUrl)
         for rdata in  response_json:
             block_name            = rdata['BlockName']
             lgd_code              = ''.join(lgd_code) 
             aao_initial_pending   = rdata['AAOInitialPending']
             go_ahead_pending      = rdata['GoaheadPending']
             current_datetime      = datetime.datetime.now()
+            aao_circle            = rdata['AAOCircle']
+            aao_name              = rdata['AAOName']
+            aao_mobno             = rdata['MobileNo']
+            aao_code              = rdata['aao_code']
             try:            
-                insert_query = "INSERT IGNORE INTO t_block_borewell_pendingapplication_data (vch_dist_lgd_code,vch_block_name,vch_aao_initial_pending,vch_goahead_pending,vch_finacial_year,vch_scheme_name,created_at,updated_at) VALUES (%s, %s, %s, %s, %s,%s,%s,%s)"
-                valdata =(lgd_code,block_name,aao_initial_pending,go_ahead_pending,fyear,schemename,current_datetime,current_datetime)
+                insert_query = "INSERT IGNORE INTO t_block_borewell_pendingapplication_data (vch_dist_lgd_code,vch_block_name,vch_aao_circle,vch_aao_name,vch_aao_mobno,vch_aao_code,vch_aao_initial_pending,vch_goahead_pending,vch_finacial_year,vch_scheme_name,created_at,updated_at) VALUES (%s, %s, %s, %s, %s,%s,%s,%s,%s,%s,%s,%s)"
+                valdata =(lgd_code,block_name,aao_circle,aao_name,aao_mobno,aao_code,aao_initial_pending,go_ahead_pending,fyear,schemename,current_datetime,current_datetime)
                 cur = mc.conn.cursor()
                 cur.execute(insert_query, valdata)
                 mc.conn.commit()

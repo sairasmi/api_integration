@@ -5,24 +5,19 @@ import logging, configparser
 from dbHelper import mysqlController
 from datetime import timedelta
 import warnings
+import signal
+import time
 warnings.filterwarnings("ignore")
 
 logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', filename='debug.log', filemode='w', level=logging.DEBUG)
 config = configparser.ConfigParser()
 config.read('./config.ini')
 mc = mysqlController()  ##initialize connection to db
-"""
-Function to fetch api data
-Cretaed By : Rasmi Ranjan Swain
-Created on : 05 Oct 2023
-"""
-def fetachUrlJsonData(apiUrl):
-    """
-    Function to fetch api data    
-     apiUrl: Api url to get the data    
-    """
-    app_responce = requests.request("GET",apiUrl,verify=False)
-    return app_responce.json()
+
+def handle_timeout(signum, frame):
+    raise TimeoutError
+
+ 
 """
 Function to get districtwise bore well data
 Created By : Rasmi Ranjan Swain
@@ -41,7 +36,8 @@ def getBlockBorewellData(fyear,schemename):
     dist_data=cur.fetchall()
     for lgd_code in dist_data:
         finalUrl = "{0}?appKey={1}&F_YEAR={2}&scheme={3}&distcode={4}".format('https://dbtmbdodisha.nic.in/dafp/getSpReportForAdapBlockWiseBWL','BVgd758hy4g5JUTi3589FR67', fyear,schemename,''.join(lgd_code))
-        response_json = fetachUrlJsonData(finalUrl)
+        response_json = mc.fetachUrlJsonData("GET",finalUrl)
+        
         for rdata in  response_json:
             slno                = rdata['Slno']
             block_name           = rdata['BlockName']
@@ -58,7 +54,9 @@ def getBlockBorewellData(fyear,schemename):
                 cur = mc.conn.cursor()
                 cur.execute(insert_query, valdata)
                 mc.conn.commit()
-
+            except TimeoutError:
+                logging.error("Error in insertion - t_block_bore_well_data")
+                logging.error("It took too long to finish the job")
             except Exception as e:
                 mc.conn.rollback()
                 logging.error("Error in insertion - t_block_bore_well_data")
@@ -81,6 +79,7 @@ if __name__ == "__main__":
         for i in range(2017, int(current_fy[:4]) + 1):
             f_year = str(i) + "-" + str(i + 1)[-2:]
             getBlockBorewellData(f_year,j)
+            #time.sleep(10)
     
 
     #getBlockBorewellData('2023-24','SP')

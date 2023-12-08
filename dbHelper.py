@@ -1,3 +1,4 @@
+import requests
 import logging
 import mysql.connector as MysqlConnector
 import logging, configparser
@@ -481,3 +482,25 @@ class mysqlController:
             year -= 1
         # Return the current financial year as a string
         return str(year) + "-" + str(year + 1)
+    """
+    Function to fetch api data
+    Cretaed By : Rasmi Ranjan Swain
+    Created on : 05 Oct 2023
+    """
+    def fetachUrlJsonData(self,fnMethoddf,apiUrl):
+        """
+        Function to fetch api data    
+        apiUrl: Api url to get the data    
+        """
+        max_retries = 3
+        retry_delay = 10  # seconds
+        for attempt in range(max_retries):
+            try:
+                app_responce = requests.request(fnMethoddf,apiUrl,verify=False,timeout=300)
+                app_responce.raise_for_status()            
+                return app_responce.json()
+                break
+            except requests.exceptions.RequestException as e:
+                logging.error(f"Request failed: {e}")
+                logging.error(f"Block bore well Attempt {attempt + 1} failed. Retrying in {retry_delay} seconds.")
+   

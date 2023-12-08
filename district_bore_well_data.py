@@ -12,18 +12,6 @@ config = configparser.ConfigParser()
 config.read('./config.ini')
 mc = mysqlController()  ##initialize connection to db
 """
-Function to fetch api data
-Cretaed By : Rasmi Ranjan Swain
-Created on : 05 Oct 2023
-"""
-def fetachUrlJsonData(apiUrl):
-    """
-    Function to fetch api data    
-     apiUrl: Api url to get the data    
-    """
-    app_responce = requests.request("GET",apiUrl,verify=False)
-    return app_responce.json()
-"""
 Function to get districtwise bore well data
 Created By : Rasmi Ranjan Swain
 Created On :05 Oct 2023
@@ -36,9 +24,7 @@ def getDistrictBorewellData(fyear,schemename):
     """
     #print(fyear)
     finalUrl = "{0}?appKey={1}&F_YEAR={2}&scheme={3}".format('https://dbtmbdodisha.nic.in/dafp/getSpReportForAdapBW','BVgd758hy4g5JUTi3589FR67', fyear,schemename)
-    response_json = fetachUrlJsonData(finalUrl)
-    #response_rawdata = response_json['rawdata']  
-    #print(response_json) 
+    response_json = mc.fetachUrlJsonData("GET",finalUrl) 
     for rdata in  response_json:
         slno                = rdata['Slno']
         dist_name           = rdata['DistName']

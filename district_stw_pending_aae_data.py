@@ -12,18 +12,6 @@ config = configparser.ConfigParser()
 config.read('./config.ini')
 mc = mysqlController()  ##initialize connection to db
 """
-Function to fetch api data
-Cretaed By : Ranjit Kumar Sahu
-Created on : 10-10-2023
-"""
-def fetachUrlJsonData(apiUrl):
-    """
-    Function to fetch api data    
-     apiUrl: Api url to get the data    
-    """
-    app_responce = requests.request("GET",apiUrl,verify=False)
-    return app_responce.json()
-"""
 Function to get districtwise  STW AAE Pending Report
 Created By : Ranjit Kumar Sahu
 Created On :10-10-2023
@@ -35,7 +23,7 @@ def getDistrictSTWPendingAAEReport(fyear):
     schemename : Scheme name 
     """
     finalUrl = "{0}?appKey={1}&Fyr={2}".format('https://dbtmbdodisha.nic.in/dafp/getspSTWReportForAdapForPendingWithAAEDistWise','HGyu758hy4g5JUTi3589FR67', fyear)
-    response_json = fetachUrlJsonData(finalUrl)
+    response_json = mc.fetachUrlJsonData("GET",finalUrl)
     for rdata in  response_json:
         lgd_code            = rdata['LGdCode'] 
         district_name       = rdata['DistName']
