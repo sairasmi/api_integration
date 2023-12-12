@@ -22,7 +22,7 @@ def getDistrictBorewellPendingData(fyear,schemename):
     fyear : Finacial year
     schemename : Scheme name 
     """
-    finalUrl = "{0}?appKey={1}&F_YEAR={2}&scheme={3}".format('https://dbtmbdodisha.nic.in/dafp/getBWLReportForAdapForPendingApplication','BVgd758hy4g5JUTi3589FR67', fyear,schemename)
+    finalUrl = "{0}?appKey={1}&Fyr={2}&scheme={3}".format('https://dbtmbdodisha.nic.in/dafp/getBWLReportForAdapForPendingApplication','BVgd758hy4g5JUTi3589FR67', fyear,schemename)
     response_json = mc.fetachUrlJsonData("GET",finalUrl)
     for rdata in  response_json:
         dist_name           = rdata['DistName']

@@ -28,18 +28,16 @@ def getBlockBorewellAndSTWReport(fyear,schemename,plip,chk):
     cur.execute(select_query)
     dist_data=cur.fetchall()
     for lgd_code in dist_data:
-        finalUrl = "{0}?appKey={1}&F_YEAR={2}&scheme={3}&PLIP={4}&Chk={5}&distcode={6}".format('https://dbtmbdodisha.nic.in/dafp/getReportForAdapBlockWiseBWLAndSTW','HGyu758hy4g5JUTi3589FR67', fyear,schemename,plip,chk ,''.join(lgd_code))
+        finalUrl = "{0}?appKey={1}&Fyr={2}&Scheme={3}&PLIP={4}&Chk={5}&distcode={6}".format('https://dbtmbdodisha.nic.in/dafp/getReportForAdapBlockWiseBWLAndSTW','HGyu758hy4g5JUTi3589FR67', fyear,schemename,plip,chk ,''.join(lgd_code))
        
-        response_json = mc.fetachUrlJsonData("GET",finalUrl)
-        
-        
+        response_json = mc.fetachUrlJsonData("GET",finalUrl)  
         for rdata in  response_json:
-            if chk==0:
-               lgd_code = rdata['LGD_code'] 
-               block_data_name= rdata['block_name']
+            if chk=='0':
+               lgd_code              = rdata['LGD_code']
+               block_data_name       = rdata['block_name']
             else:
-               lgd_code = rdata['LGD_code'] 
-               block_data_name = rdata['block_name']
+               lgd_code              = rdata['LgdCode'] 
+               block_data_name       = rdata['BlockName']            
             admin_target             = rdata['AdminTarget']
             validapplication         = rdata['ValidApplication']
             aao_inspection           = rdata['AAOInspection']
@@ -56,7 +54,7 @@ def getBlockBorewellAndSTWReport(fyear,schemename,plip,chk):
             aae_billing_pending      = rdata['AAEBillingPending']
             physical                 = rdata['Physical']
             financial                = rdata['Financial']
-
+            
             current_datetime = datetime.datetime.now()
             try:            
                 insert_query = "INSERT IGNORE INTO t_block_borewell_stw_report (vch_dist_lgd_code,vch_block_name,vch_admin_target,vch_validapplication,vch_aao_inspection,vch_aao_pending,vch_gohead_issued,vch_goahead_pending,vch_aao_complition,vch_aao_completion_pending,vch_no_deactivate,vch_aae_inspectionok,vch_aae_reject,vch_aae_tobe_inspected,vch_aae_billing,vch_aae_billing_pending,vch_physical,vch_financial,vch_finacial_year,vch_scheme_name,vch_plip,int_chk,created_at,updated_at) VALUES (%s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s)"

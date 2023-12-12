@@ -22,7 +22,7 @@ def getDistrictBorewellAndSTWReport(fyear,schemename,plip,chk):
     fyear : Finacial year
     schemename : Scheme name 
     """
-    finalUrl = "{0}?appKey={1}&F_YEAR={2}&scheme={3}&PLIP={4}&Chk={5}".format('https://dbtmbdodisha.nic.in/dafp/getReportForAdapBWLAndSTW','HGyu758hy4g5JUTi3589FR67', fyear,schemename,plip,chk)
+    finalUrl = "{0}?appKey={1}&Fyr={2}&Scheme={3}&PLIP={4}&Chk={5}".format('https://dbtmbdodisha.nic.in/dafp/getReportForAdapBWLAndSTW','HGyu758hy4g5JUTi3589FR67', fyear,schemename,plip,chk)
     response_json = mc.fetachUrlJsonData("GET",finalUrl)
     for rdata in  response_json:
         dist_code           = rdata['dist_code']
